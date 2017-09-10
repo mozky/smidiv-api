@@ -1,5 +1,8 @@
 # SMIDIV API
 
+Repositorio que contiene el servidor backend para SMIDIV, consta de varios endpoints
+REST, para utilizarlos por la aplicación web, móvil y el dispositivo del automóvil
+
 ## Desarrollo
 
 Asegurate de tener una instancia de MongoDB iniciada...
