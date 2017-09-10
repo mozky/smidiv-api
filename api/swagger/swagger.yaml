@@ -4,9 +4,9 @@ info:
   title: SMIDIV API
 # during dev, should point to your local machine
 host: localhost:10010
-# basePath prefixes all resource paths 
+# basePath prefixes all resource paths
 basePath: /
-# 
+#
 schemes:
   # tip: remove http to make production-grade
   - http
@@ -17,7 +17,156 @@ consumes:
 # format of the responses to the client (Accepts)
 produces:
   - application/json
+# basic authentication definition
+securityDefinitions:
+  basicAuth:
+    type: basic
+  tokenAuth:
+    type: apiKey
+    in: header
+    name: X-API-KEY
 paths:
+  /health:
+    x-swagger-router-controller: system
+    get:
+      description: Returns the status of the application
+      operationId: health
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/SystemHealthResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /login:
+    x-swagger-router-controller: account
+    post:
+      description: Route to login into the system
+      operationId: login
+      parameters:
+        - name: user
+          in: body
+          required: true
+          schema:
+            $ref: "#/definitions/LoginRequest"
+      responses:
+        "200":
+          description: Sucess
+          schema:
+            $ref: "#/definitions/AuthenticationResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /user:
+    # our controller name
+    x-swagger-router-controller: user
+    get:
+      # require basic authentication on this route
+      security:
+        - basicAuth: []
+        - tokenAuth: []
+      description: Gets the users list
+      operationId: getUsersList
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/GetUsersListResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+    post:
+      description: Adds a new user
+      operationId: addUser
+      parameters:
+        - name: user
+          description: New user's information
+          in: body
+          required: true
+          schema:
+            $ref: "#/definitions/User"
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/AuthenticationResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /user/{username}:
+    # our controller name
+    x-swagger-router-controller: user
+    patch:
+      description: Updates a user by username
+      operationId: updateUser
+      parameters:
+        - in: path
+          name: username
+          type: string
+          required: true
+          description: Username of the user to update
+        - name: updates
+          description: User updates
+          in: body
+          required: true
+          schema:
+            $ref: "#/definitions/UserUpdates"
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/StringResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+    get:
+      security:
+        - basicAuth: []
+        - tokenAuth: []
+      description: Gets the user description for a given username
+      operationId: getUser
+      parameters:
+        - name: username
+          in: path
+          description: The unique username of the user to get the data
+          required: true
+          type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/GetUserResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+    delete:
+      security:
+        - basicAuth: []
+        - tokenAuth: []
+      description: Deletes the user for the given username
+      operationId: deleteUser
+      parameters:
+        - name: username
+          in: path
+          description: The unique username of the user to delete
+          required: true
+          type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/StringResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
   /hello:
     # binds a127 app logic to a route
     x-swagger-router-controller: hello_world
@@ -46,12 +195,116 @@ paths:
     x-swagger-pipe: swagger_raw
 # complex objects have schema definitions
 definitions:
+  SystemHealthResponse:
+    type: object
+    properties:
+      database:
+        type: string
+        description: returns the database status
+      systemTime:
+        type: string
+        format: date-time
+        description: System local time
+  LoginRequest:
+    type: object
+    properties:
+      username:
+        type: string
+      password:
+        type: string
+        format: password
+    required:
+      - username
+      - password
+  AuthenticationResponse:
+    required:
+      - success
+      - message
+      - token
+    properties:
+      success:
+        type: boolean
+      message:
+        type: string
+      token:
+        type: string
+  GetUsersListResponse:
+    required:
+      - users
+    properties:
+      # The array of users
+      users:
+        type: array
+        items:
+          type: object
+          properties:
+            username:
+              type: string
+  User:
+    type: object
+    properties:
+      username:
+        type: string
+        description: user's unique username
+      email:
+        type: string
+        description: user's email
+      password:
+        type: string
+        format: password
+      records:
+        type: array
+        items:
+          type: object
+    required:
+      - username
+      - email
+      - password
+  UserUpdates:
+    type: object
+    properties:
+      username:
+        type: string
+      password:
+        type: string
+        format: password
+      email:
+        type: string
+  StringResponse:
+    required:
+      - message
+    properties:
+      message:
+        type: string
   HelloWorldResponse:
     required:
       - message
     properties:
       message:
         type: string
+  GetUserResponse:
+    properties:
+      user:
+        type: object
+        properties:
+          _id:
+            type: string
+          username:
+            type: string
+          email:
+            type: string
+          profile:
+            type: object
+          routines:
+            type: array
+            items:
+              type: object
+          records:
+            type: array
+            items:
+              type: object
+    required:
+      - user
   ErrorResponse:
     required:
       - message
