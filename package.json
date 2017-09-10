@@ -12,11 +12,18 @@
     "swagger-express-mw": "^0.1.0"
   },
   "devDependencies": {
+    "basic-auth": "^1.1.0",
+    "cross-env": "^5.0.5",
+    "jsonwebtoken": "^8.0.0",
+    "mongoose": "^4.11.10",
+    "password-hash": "^1.2.2",
     "should": "^7.1.0",
-    "supertest": "^1.0.0"
+    "supertest": "^1.0.0",
+    "swagger": "^0.7.5"
   },
   "scripts": {
-    "start": "node app.js",
+    "start": "cross-env NODE_ENV=production node app.js",
+    "dev": "cross-env DEBUG=swagger-tools:middleware:* swagger project start",
     "test": "swagger project test"
   }
 }
