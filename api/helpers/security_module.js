@@ -57,7 +57,6 @@ module.exports = {
 
     // verifies secret and checks exp
     jwt.verify(token, config.secret, function(err, decoded) {
-      console.log(decoded)
       if (err) {
         return cb(new Error('access denied'));
       } else {
