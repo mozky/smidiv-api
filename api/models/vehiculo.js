@@ -2,15 +2,34 @@ const Mongoose = require('../helpers/mongo_connector');
 const db = Mongoose.db;
 
 const vehiculoSchema = db.Schema({
-    id_usuario: {type: db.Schema.Types.ObjectId},
-    marca: {type: String},
-    idMarca: {type:String},
-    modelo: {type: String},
-    codigoOBD: { nombre : String , valor: String},
-    fechaCreacion: {type: String, default: Date.now},
-    fechaActualización: {type: Date, default: Date.now},
-  
-  });
+    usuario: {
+        type: db.Schema.Types.ObjectId,
+        required: true,
+        ref: 'User'
+    },
+    marca: {
+        type: db.Schema.Types.ObjectId,
+        ref: 'Marca'
+    },
+    modelo: {
+        type: String
+    },
+    codigoOBD: {
+        type: String
+    },
+    deleted: {
+        type: Boolean,
+        default: false
+    },
+    dateCreated: {
+        type: Date,
+        default: Date.now
+    },
+    dateUpdated: {
+        type: Date,
+        default: Date.now
+    }
+});
 
-const vehiculo = db.model('vehiculo', vehiculoSchema);
-module.exports = vehiculo;
+const Vehiculo = db.model('Vehiculo', vehiculoSchema);
+module.exports = Vehiculo;

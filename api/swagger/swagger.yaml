@@ -60,6 +60,48 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
+  /vehicle:
+    # our controller name
+    x-swagger-router-controller: vehiculo
+    get:
+      # require basic authentication on this route
+      security:
+        - basicAuth: []
+        - tokenAuth: []
+      description: Gets the vehicles list
+      operationId: getVehiclesList
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/OkResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+    post:
+      # require basic authentication on this route
+      security:
+        - basicAuth: []
+        - tokenAuth: []
+      description: Adds a new vehicle
+      operationId: addVehiculo
+      parameters:
+        - name: vehiculo
+          description: New vehicle's information
+          in: body
+          required: true
+          schema:
+            $ref: "#/definitions/Vehiculo"
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/OkResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
   /user:
     # our controller name
     x-swagger-router-controller: user
@@ -240,6 +282,23 @@ definitions:
           properties:
             username:
               type: string
+  Vehiculo:
+    type: object
+    properties:
+      username:
+        type: string
+        description: vehicle's owner
+      marca:
+        type: string
+        description: vehicle's brand
+      modelo:
+        type: string
+        description: vehicle's model
+      codigoOBD:
+        type: string
+        description: vehicle's obdCode
+    required:
+      - username
   User:
     type: object
     properties:
@@ -305,6 +364,16 @@ definitions:
               type: object
     required:
       - user
+  OkResponse:
+    required:
+      - response
+      - sucess
+    properties:
+      response:
+        type: object
+        properties: {}
+      sucess:
+        type: boolean
   ErrorResponse:
     required:
       - message
