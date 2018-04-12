@@ -1,0 +1,33 @@
+MSJ1 "Campos obligatorios vácios"
+​ MSJ2​ ​ mensaje​ ​ “Tipo​ ​ de​ ​ dato​ ​ no​ ​ coincide​ ​ con​ ​ el​ ​ indicado”
+​ MSJ3 mensaje de “La contraseña ha sido ingresada de
+manera​ ​ incorrecta​ ​ demasiadas​ ​ veces”
+MSJ4​​ ​ mensaje​ ​ “La​ ​ contraseñas​ ​ no​ ​ coinciden”
+​ MSJ5 “El email o la contraseña no coinciden con ningún
+registro”
+​ MSJ6​​ ​ “Contraseña​ ​ enviada​ ​ al​ ​ correo”
+MSJ7​ ​ “ ​ Formato​ ​ de​ ​ correo​ ​ electrónico​ ​ incorrecto​ ”
+MSJ8​ ​ “ ​ El​ ​ correo​ ​ no​ ​ se​ ​ encuentra​ ​ en​ ​ la​ ​ base​ ​ de​ ​ datos​ ”
+MSJ9​​ ​ “Usuario​ ​ registrado”
+​ MSJ10​ ​ “ ​ Ocurrió​ ​ un​ ​ error​ ​ al​ ​ ingresar​ ​ la​ ​ información​ ”
+​ MSJ11​​ ​ “No​ ​ cuentas​ ​ con​ ​ alarmas”
+MSJ12​ ​ ​ “Alarma​ ​ silenciada”
+​ ​ MSJ13​​ ​ “No​ ​ puedes​ ​ silenciar​ ​ alarmas​ ​ inactivas​ ​ ”
+MSJ14​ ​ “No​ ​ tenemos​ ​ información​ ​ sobre​ ​ tu​ ​ automóvil​ ​ todavía”
+MSJ15​​ ​ “Parámetro​ ​ oculto”
+MSJ16​ ​ “Datos​ ​ ingresados​ ​ correctamente”
+MSJ17​​ ​ “Estás​ ​ seguro​ ​ que​ ​ quieres​ ​ eliminar​ ​ la​ ​ ubicación”,
+MSJ18​​ ​ “Ubicación​ ​ eliminada”,
+​ MSJ19​ ​ "Error​ ​ eliminando​ ​ la​ ​ ubicación,​ ​ vuelve​ ​ a ​ ​ intentarlo"
+MSJ20​ ​ “Error​ ​ graficando​ ​ el​ ​ mapa”
+​ ​ MSJ21​ ​ “El​ ​ automóvil​ ​ ha​ ​ sido​ ​ registrado​ ​ con​ ​ éxito”
+​ MSJ22​ ​ “La​ ​ clave​ ​ SMIDIV​ ​ no​ ​ es​ ​ válida,​ ​ intenta​ ​ de​ ​ nuevo”
+MSJ23​ ​ “Usuario​ ​ no​ ​ tiene​ ​ prendido​ ​ GPS”
+​ MSJ23​ ​ “La​ ​ contraseña​ ​ ha​ ​ sido actualizada​ ​ con​ ​ exito”
+​ ​ MSJ24​ ​ “Error​ ​ no​ ​ has​ ​ iniciado​ ​ sesión”
+​ MSJ24​​ ​ “Estás​ ​ seguro​ ​ que​ ​ quieres​ ​ eliminar​ ​ el​ ​ historial”,
+​ ​ MSJ25​​ ​ “Historial​ ​ eliminada”,
+​ ​ MSJ26​ ​ "Error​ ​ eliminando​ ​ la​ ​ ubicación,​ ​ vuelve​ ​ a ​ ​ intentarlo"
+MSJ26​​ ​ “Estás​ ​ seguro​ ​ que​ ​ quieres​ ​ eliminar​ ​ el​ ​ automovil”,
+MSJ27​​ ​ “Ubicación​ ​ eliminada”,
+MSJ28​ ​ “No​ ​ tenemos​ ​ información​ ​ sobre​ ​ tu​ ​ automóvil​ ​ todavía”
