@@ -1,6 +1,8 @@
+const config = require('../../config')
+
 const mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://localhost/smidiv');
+mongoose.connect(config.dbURL);
 
 const db = mongoose.connection;
 
@@ -11,5 +13,6 @@ db.once('open', function() {
 });
 
 module.exports = {
-  db: mongoose
+  db: mongoose,
+  state: db.readyState
 };
