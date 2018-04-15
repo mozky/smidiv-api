@@ -19,14 +19,14 @@ SwaggerExpress.create(config, function(err, swaggerExpress) {
   // install middleware
   swaggerExpress.register(app);
 
-  var port = process.env.PORT || 10010;
-  var apiURL = process.env.API_URL || 'localhost'
+  var port = process.env.API_PORT || 10010;
+  var host = process.env.API_HOST || 'localhost'
   app.listen(port);
 
   if (swaggerExpress.runner.swagger.paths['/health']) {
     console.log(
         `try this: 
-            curl http://${apiURL}:${port}/health`
+            curl http://${host}:${port}/health`
     );
   }
 });
