@@ -20,9 +20,10 @@ SwaggerExpress.create(config, function(err, swaggerExpress) {
   swaggerExpress.register(app);
 
   var port = process.env.PORT || 10010;
+  var apiURL = process.env.API_URL || 'localhost'
   app.listen(port);
 
   if (swaggerExpress.runner.swagger.paths['/health']) {
-    console.log('try this:\ncurl http://127.0.0.1:' + port + '/health');
+    console.log(`try this:\ncurl http://${apiUrl}${port}/health`);
   }
 });
