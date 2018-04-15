@@ -9,9 +9,10 @@ const ubicacionSchema = db.Schema({
         ref: 'Vehiculo'
     },
     ubicacion:{
-        type: db.Schema.Types.ObjectId,
-        required: true,
-    },
+        nombre:{type: String},
+        lat:{type: Number},
+        lon:{type: Number}
+    },  
     fechaCreacion:{
         type: Date, default: Date.now
     },

@@ -1,7 +1,7 @@
 const Mongoose = require('../helpers/mongo_connector');
 const db = Mongoose.db;
 
-const alarmaSChema = db.Schema({
+const alarmaSchema = db.Schema({
     usuario: {
         type: db.Schema.Types.ObjectId,
         required: true,
@@ -19,11 +19,15 @@ const alarmaSChema = db.Schema({
         type:String,
     },
     rangoDistancia:{
-        type: Number,
+        rango: Number,
+        ubic :{
+            lat :{ type: Number},
+            lon :{type: Number}
+        }
     },
     rangoHorario:{
-        type: db.Schema.Types,ObjectId,
-        required: true,
+        inicio:{type: Number, default: 0},
+        fin:{type: Number, default: 0}
     },
     fechaCreacion:{
         type: Date, default: Date.now

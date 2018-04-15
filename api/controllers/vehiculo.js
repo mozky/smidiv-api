@@ -3,6 +3,7 @@
 const util = require('util');
 const Vehiculo = require('../models/vehiculo');
 const User = require('../models/user')
+const Marca = require('../models/marca')
 const config = require('../../config'); // get our config file
 
 module.exports = {
@@ -23,8 +24,16 @@ module.exports = {
                     res.status(400).json('Error fetching user')
                     return;
                 }
-
-                vehiculoObject.usuario = user._id
+                const marca = Marca.findOne({
+                    'nombre':vehiculoObject.marca,
+                }).select('_id').exec(function (err, marca){
+                    if(err || !marca){
+                        console.log("Error fetching marca , #addMarca", err)
+                        res.status(400).json('Error obteniendo la marca')
+                        return;
+                    }
+                    vehiculoObject.usuario = user._id
+                    vehiculoObject.marca = marca._id
 
                 new Vehiculo(vehiculoObject).save(function (err, nuevoVehiculo) {
                     if (err) {
@@ -39,6 +48,9 @@ module.exports = {
                         });
                     }
                 });
+                })
+
+                
             })
     },
     getVehiclesList: function (req, res) {
