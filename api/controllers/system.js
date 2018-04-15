@@ -10,8 +10,8 @@ module.exports = {
   health: function (req, res) {
 
       const status = {
-          status: database.dbState == 2 ? 'ok': 'failing',
-          database: database.dbState,
+          status: database.state == 2 ? 'ok': 'failing',
+          database: database.state,
           systemTime: new Date()
       }
 
