@@ -21,13 +21,12 @@ SwaggerExpress.create(config, function(err, swaggerExpress) {
 
   var port = process.env.PORT || 10010;
   var apiURL = process.env.API_URL || 'localhost'
-  console.log('API URL', apiURL)
   app.listen(port);
 
   if (swaggerExpress.runner.swagger.paths['/health']) {
     console.log(
         `try this: 
-            curl http://${apiURL}${port}/health`
+            curl http://${apiURL}:${port}/health`
     );
   }
 });

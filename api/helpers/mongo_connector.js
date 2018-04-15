@@ -1,8 +1,8 @@
-const MONGO_URL = process.env.MONGO_URL ? process.env.MONGO_URL : 'localhost'
+const config = require('../../config')
 
 const mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
-mongoose.connect(`mongodb://${MONGO_URL}:27017/smidiv`);
+mongoose.connect(config.dbURL);
 
 const db = mongoose.connection;
 
