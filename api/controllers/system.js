@@ -4,12 +4,14 @@
  https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Strict_mode
 */
 
+const database = require('../helpers/mongo_connector')
 
 module.exports = {
   health: function (req, res) {
 
       const status = {
-          status: 'ok',
+          status: database.dbState == 2 ? 'ok': 'failing',
+          database: database.dbState,
           systemTime: new Date()
       }
 

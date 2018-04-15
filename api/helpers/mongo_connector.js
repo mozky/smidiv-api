@@ -11,5 +11,6 @@ db.once('open', function() {
 });
 
 module.exports = {
-  db: mongoose
+  db: mongoose,
+  state: mongoose.connection.readyState
 };

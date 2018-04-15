@@ -240,8 +240,11 @@ definitions:
   SystemHealthResponse:
     type: object
     properties:
-      database:
+      status:
         type: string
+        description: overall system status
+      database:
+        type: number
         description: returns the database status
       systemTime:
         type: string
