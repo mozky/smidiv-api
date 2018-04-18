@@ -55,11 +55,50 @@ paths:
         "200":
           description: Sucess
           schema:
-            $ref: "#/definitions/AuthenticationResponse"
+            $ref: "#/definitions/OkResponse"
         default:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
+  /OBD:
+    x-swagger-router-controller: obd
+    get:
+      security:
+        - basicAuth: []
+        - tokenAuth: []
+      description: OBD information
+      responses:
+        "200":
+          description: Sucess
+          schema:
+            $ref: "#/definitions/OkResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+    post:
+      security:
+        - basicAuth: []
+        - tokenAuth: []
+      description: agregar informacion OBD2
+      operationId: addOBD
+      parameters:
+        - name: obd
+          in: body
+          required: true
+          schema:
+            $ref: "#/definitions/OBD"
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/OkResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+    
+    
   /ubicacion:
     x-swagger-router-controller: ubicacion
     get:
@@ -67,6 +106,7 @@ paths:
         - basicAuth: []
         - tokenAuth: []
       description: Obtener ubicacion
+      operationId: getUbicacion      
       responses:
         "200":
           description: Sucess
@@ -534,7 +574,17 @@ definitions:
     properties:
       message:
         type: string
-
+  OBD:
+    type: object
+    properties:
+      vehiculo:
+        type: string
+      tipo:
+        type: string
+      valor:
+        type: string
+    required:
+      - vehiculo
   GetUserResponse:
     properties:
       user:

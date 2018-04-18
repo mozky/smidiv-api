@@ -1,4 +1,4 @@
-const Mongoose = require('../helpers/mongo_connector');
+const Mongoose = require('../helpers/mongo_connector')
 const db = Mongoose.db;
 
 
@@ -20,4 +20,4 @@ const ubicacionSchema = db.Schema({
 
 const Ubicacion = db.model('Ubicacion',ubicacionSchema);
 
-module.exports = ubicacion;
+module.exports = Ubicacion;
