@@ -402,12 +402,15 @@ definitions:
     type: object
     properties:
       database:
-        type: string
+        type: number
         description: returns the database status
       systemTime:
         type: string
         format: date-time
         description: System local time
+      status:
+        type: string
+        description: Status of the application
   LoginRequest:
     type: object
     properties:

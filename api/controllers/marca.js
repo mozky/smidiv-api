@@ -10,7 +10,7 @@ module.exports = {
         
         const marcaObject = req.swagger.params.marca.value;
         if (!marcaObject) res.status(400).json('Error con el objecto');
-        new Marca(marcaObject).save(function(err,nuevaMarca){
+        new Marca(marcaObject).save(function(err, nuevaMarca){
             if (err) {
                 if (err.code == 11000) res.status(400).json('Marca ya existente');
                 return console.error(err);
