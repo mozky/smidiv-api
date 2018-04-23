@@ -38,19 +38,18 @@ module.exports = {
         });
     },
     getUbicacion: function(req, res){
-        const ubicacionObject = req.swagger.params.ubicacion.value;
         const vehiculo = Vehiculo.findOne({
-            'placas': ubicacionObject.idAutomovil
+            'placas': req.swagger.params.vehiculo.value
         })
         .select('_id')
-        .exec(function (err, user) {
-            if (err || !user) {
+        .exec(function (err, vehi) {
+            if (err || !vehi) {
                 console.log('Error fetching vehiculo, #addUbicacion', err)
                 res.status(400).json('Error fetching vehicle')
                 return;
             }
             Ubicacion.findOne({
-                "idAutomovil": vehiculo._id,
+                "idAutomovil": vehi._id,
             }).exec(function (err, ubicacion){
                 if(err||!ubicacion){
                     console.log('Error fetching vehiculo, #addUbicacion', err)
@@ -68,13 +67,35 @@ module.exports = {
         });
     },
     getUbicaciones: function(req, res){
-        //deberia tener un rango, chance un dia
-        const objetoUbicacion = req.swagger.params.ubicacion.value;
-        Ubicacion.find({idAutomovil:objetoUbicacion.automovil
-        }).select("lat lon").exec(function(err, ubicaciones){
-            if(err){res.status(400).json("error")}
-            res.status(200).json(ubicaciones);
+
+        const vehiculo = Vehiculo.findOne({
+            'placas': req.swagger.params.vehiculo.value
         })
-        
+        .select('_id')
+        .exec(function (err, vehi) {
+            if (err || !vehi) {
+                console.log('Error fetching vehiculo, #addUbicacion', err)
+                res.status(400).json('Error fetching vehicle')
+                return;
+            }
+            Ubicacion.find({
+                "idAutomovil": vehi._id,
+            }).exec(function (err, ubicacion){
+                if(err||!ubicacion){
+                    console.log('Error fetching vehiculo, #addUbicacion', err)
+                    res.status(400).json('Error fetching vehicle')
+                    return;
+                }
+                res.status(200).json({
+                    sucess: true,
+                    response: {
+                        ubicaciones: ubicacion
+                    }
+                });
+            });
+
+        });
+        //deberia tener un rango, chance un dia
+       
     }
 }

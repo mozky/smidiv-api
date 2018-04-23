@@ -160,6 +160,29 @@ paths:
           schema:
             $ref: "#/definitions/ErrorResponse"
     
+  /ubicacion/{vehiculo}:
+    x-swagger-router-controller: ubicacion
+    get:
+      security:
+        - basicAuth: []
+        - tokenAuth: []
+      description: Gets the user description for a given username
+      operationId: getUbicaciones
+      parameters:
+        - name: vehiculo
+          in: path
+          description: The unique username of the user to get the data
+          required: true
+          type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/OkResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
     
   /brand:
     x-swagger-router-controller: marca
