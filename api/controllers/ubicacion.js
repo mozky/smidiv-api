@@ -57,7 +57,7 @@ module.exports = {
                     res.status(400).json('Error fetching vehicle')
                     return;
                 }
-                res.json({
+                res.status(200).json({
                     sucess: true,
                     response: {
                         ubicaciones: ubicacion
@@ -69,5 +69,12 @@ module.exports = {
     },
     getUbicaciones: function(req, res){
         //deberia tener un rango, chance un dia
+        const objetoUbicacion = req.swagger.params.ubicacion.value;
+        Ubicacion.find({idAutomovil:objetoUbicacion.automovil
+        }).select("lat lon").exec(function(err, ubicaciones){
+            if(err){res.status(400).json("error")}
+            res.status(200).json(ubicaciones);
+        })
+        
     }
 }

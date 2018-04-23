@@ -9,7 +9,6 @@ const ubicacionSchema = db.Schema({
         ref: 'Vehiculo'
     },
     ubicacion:{
-        nombre:{type: String},
         lat:{type: Number},
         lon:{type: Number}
     },  

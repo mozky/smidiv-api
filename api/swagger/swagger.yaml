@@ -55,11 +55,33 @@ paths:
         "200":
           description: Sucess
           schema:
+            $ref: "#/definitions/AuthenticationResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /mail:
+    x-swagger-router-controller: mail
+    post:
+      summary: envia mail al correo del usuario
+      description: Envia correo
+      operationId: sendCorreo
+      parameters:
+      - name: user
+        in: body
+        required: true
+        schema:
+          $ref: "#/definitions/CorreoRequest"
+      responses:
+        "200":
+          description: OK
+          schema:
             $ref: "#/definitions/OkResponse"
         default:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
+    
   /OBD:
     x-swagger-router-controller: obd
     get:
@@ -422,6 +444,13 @@ definitions:
     required:
       - username
       - password
+  CorreoRequest:
+    type: object
+    properties:
+      username:
+        type: string
+    required:
+    - username
   AuthenticationResponse:
     required:
       - success
@@ -446,6 +475,38 @@ definitions:
           properties:
             username:
               type: string
+              
+  GetUbicacionResponse:
+    required:
+      - ubicaciones
+    properties:
+      # The array of users
+      ubicaciones:
+        type: array
+        items:
+          type: object
+          properties:
+            lat:
+              type: number
+              format: double
+            lon:
+              type: number
+              format: double
+  
+  GetOBDListResponse:
+    required:
+      - valores
+    properties:
+      # The array of users
+      valores:
+        type: array
+        items:
+          type: object
+          properties:
+            tipo:
+              type: integer
+            valor:
+              type: integer
   Marca:
     type: object
     properties:
@@ -525,12 +586,10 @@ definitions:
       ubicacion:
         type: object
         properties:
-          nombre:
-            type: string
           lat:
-            type: integer
+            type: number
           lon: 
-            type: integer
+            type: number
       fechaCreacion:
         type: string
     required:
