@@ -1,10 +1,8 @@
-'use strict';
-
-const util = require('util');
-const Vehiculo = require('../models/vehiculo');
+const util = require('util')
+const Vehiculo = require('../models/vehiculo')
 const User = require('../models/user')
 const Marca = require('../models/marca')
-const config = require('../../config'); // get our config file
+const config = require('../../config')
 
 module.exports = {
     addVehiculo: function (req, res) {
@@ -25,7 +23,7 @@ module.exports = {
                     return;
                 }
                 const marca = Marca.findOne({
-                    'nombre':vehiculoObject.marca,
+                    'nombre': vehiculoObject.marca,
                 }).select('_id').exec(function (err, marca){
                     if(err || !marca){
                         console.log("Error fetching marca , #addMarca", err)
@@ -45,13 +43,11 @@ module.exports = {
                         res.json({
                             sucess: true,
                             response: nuevoVehiculo
-                        });
+                        })
                     }
-                });
                 })
-
-                
-            })
+            })   
+        })
     },
     getVehiclesList: function (req, res) {
         Vehiculo.find({
@@ -62,13 +58,14 @@ module.exports = {
             //     modelo: 1
             // })
             .populate({
-                path: 'usuario',
-                select: '_id username marca placas modelo'
+                path: 'usuaio',
+                select: '_id username'
             })
-            // .populate({
-            //     path: 'marca',
-            // })
-            .select('-_id modelo codigoOBD')
+            .populate({
+                path: 'marca',
+                select: '_id nombre'
+            })
+            .select('_id modelo placas codigoOBD')
             .exec(function (err, vehicles) {
                 res.json({
                     sucess: true,
@@ -76,6 +73,6 @@ module.exports = {
                         vehiculos: vehicles
                     }
                 })
-            });
+            })
     }
 }
