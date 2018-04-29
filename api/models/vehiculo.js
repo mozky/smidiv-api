@@ -18,7 +18,9 @@ const vehiculoSchema = db.Schema({
         tipo:{type: String},
         value:{type: String}
     },
-    placas:{type: String},
+    placas: {
+        type: String
+    },
     deleted: {
         type: Boolean,
         default: false

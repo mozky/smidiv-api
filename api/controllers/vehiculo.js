@@ -8,9 +8,9 @@ const config = require('../../config'); // get our config file
 
 module.exports = {
     addVehiculo: function (req, res) {
-        const vehiculoObject = req.swagger.params.vehiculo.value;
+        const vehiculoObject = req.swagger.params.vehiculo.value
 
-        if (!vehiculoObject) res.status(400).json('Error');
+        if (!vehiculoObject) res.status(400).json('Error')
 
         // we find the userId using the username from the request
         const user = User.findOne({
@@ -63,7 +63,7 @@ module.exports = {
             // })
             .populate({
                 path: 'usuario',
-                select: '_id username'
+                select: '_id username marca placas modelo'
             })
             // .populate({
             //     path: 'marca',
