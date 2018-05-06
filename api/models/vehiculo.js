@@ -14,14 +14,13 @@ const vehiculoSchema = db.Schema({
     modelo: {
         type: String
     },
-    codigoOBD: {
-        tipo:{type: String},
-        value:{type: String}
+    smidivID: {
+        type: String
     },
     placas: {
         type: String
     },
-    deleted: {
+    deleted: { 
         type: Boolean,
         default: false
     },

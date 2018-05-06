@@ -85,9 +85,6 @@ paths:
   /OBD:
     x-swagger-router-controller: obd
     get:
-      security:
-        - basicAuth: []
-        - tokenAuth: []
       description: OBD information
       responses:
         "200":
@@ -99,9 +96,6 @@ paths:
           schema:
             $ref: "#/definitions/ErrorResponse"
     post:
-      security:
-        - basicAuth: []
-        - tokenAuth: []
       description: agregar informacion OBD2
       operationId: addOBD
       parameters:
@@ -120,6 +114,45 @@ paths:
           schema:
             $ref: "#/definitions/ErrorResponse"
     
+    
+  /ubicacionFav:
+    x-swagger-router-controller: ubicacionFav
+    get:
+      security:
+        - basicAuth: []
+        - tokenAuth: []
+      description: Obtener ubicacion
+      operationId: getUbicacionFav 
+      responses:
+        "200":
+          description: Sucess
+          schema:
+            $ref: "#/definitions/OkResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+    post:
+      security:
+        - basicAuth: []
+        - tokenAuth: []
+      description: añadir Ubicacion
+      operationId: addUbicacionFav
+      parameters:
+        - name: ubicacionFav
+          in: body
+          required: true
+          schema:
+            $ref: "#/definitions/UbicacionFav"
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/OkResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
     
   /ubicacion:
     x-swagger-router-controller: ubicacion
@@ -498,46 +531,11 @@ definitions:
           properties:
             username:
               type: string
-              
-  GetUbicacionResponse:
-    required:
-      - ubicaciones
-    properties:
-      # The array of users
-      ubicaciones:
-        type: array
-        items:
-          type: object
-          properties:
-            lat:
-              type: number
-              format: double
-            lon:
-              type: number
-              format: double
-  
-  GetOBDListResponse:
-    required:
-      - valores
-    properties:
-      # The array of users
-      valores:
-        type: array
-        items:
-          type: object
-          properties:
-            tipo:
-              type: integer
-            valor:
-              type: integer
   Marca:
     type: object
     properties:
-      nombre:
+      nombre: 
         type: string
-        description: Marca de auto
-    required:
-      - nombre
   Vehiculo:
     type: object
     properties:
@@ -550,13 +548,8 @@ definitions:
       modelo:
         type: string
         description: vehicle's model
-      codigoOBD:
-        type: object
-        properties:
-          tipo:
-            type: string
-          value:
-            type: string
+      smidivID:
+        type: string
       placas:
         type: string
     required:
@@ -603,7 +596,7 @@ definitions:
   Ubicacion:
     type: object
     properties:
-      idAutomovil:
+      smidivID:
         type: string
         description: Ubicacion ligada al automovil
       ubicacion:
@@ -616,7 +609,32 @@ definitions:
       fechaCreacion:
         type: string
     required:
-    - idAutomovil
+    - smidivID
+  UbicacionFav:
+    type: object
+    properties:
+      idUsuario:
+        type: string
+        description: Ubicacion ligada al automovil
+      nombre:
+        type: string
+        description: nombre de la ubicacion
+      ubicacion:
+        type: object
+        properties:
+          lat:
+            type: number
+          lon: 
+            type: number
+      fechaCreacion:
+        type: string
+        format: date
+      fechaActualizacion:
+        type: string
+        format: date
+        
+    required:
+    - idUsuario
   User:
     type: object
     properties:
@@ -662,14 +680,14 @@ definitions:
   OBD:
     type: object
     properties:
-      vehiculo:
+      smidivID:
         type: string
       tipo:
         type: string
       valor:
         type: string
     required:
-      - vehiculo
+      - smidivID
   GetUserResponse:
     properties:
       user:

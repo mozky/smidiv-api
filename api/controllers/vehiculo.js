@@ -32,7 +32,7 @@ module.exports = {
                     }
                     vehiculoObject.usuario = user._id
                     vehiculoObject.marca = marca._id
-
+                    console.log(vehiculoObject.smidivID);
                 new Vehiculo(vehiculoObject).save(function (err, nuevoVehiculo) {
                     if (err) {
                         if (err.code == 11000) res.status(400).json('Vehiculo ya guardado');
@@ -65,7 +65,7 @@ module.exports = {
                 path: 'marca',
                 select: '_id nombre'
             })
-            .select('_id modelo placas codigoOBD')
+            .select('_id modelo placas')
             .exec(function (err, vehicles) {
                 res.json({
                     sucess: true,

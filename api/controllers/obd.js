@@ -8,10 +8,9 @@ const Obd = require('../models/obd')
 module.exports = {
     addOBD: function(req, res){
         const obdObject = req.swagger.params.obd.value;
-
         if (!obdObject) res.status(400).json('Error');
         const vehiculo = Vehiculo.findOne({
-            'placas': obdObject.idAutomovil
+            'smidivID': obdObject.smidivID
         })
         .select('_id')
         .exec(function (err, vehiculo) {
