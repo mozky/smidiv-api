@@ -133,9 +133,6 @@ paths:
           schema:
             $ref: "#/definitions/ErrorResponse"
     post:
-      security:
-        - basicAuth: []
-        - tokenAuth: []
       description: añadir Ubicacion
       operationId: addUbicacionFav
       parameters:
@@ -157,9 +154,6 @@ paths:
   /ubicacion:
     x-swagger-router-controller: ubicacion
     get:
-      security:
-        - basicAuth: []
-        - tokenAuth: []
       description: Obtener ubicacion
       operationId: getUbicacion      
       responses:
@@ -172,9 +166,6 @@ paths:
           schema:
             $ref: "#/definitions/ErrorResponse"
     post:
-      security:
-        - basicAuth: []
-        - tokenAuth: []
       description: añadir Ubicacion
       operationId: addUbicacion
       parameters:
@@ -216,7 +207,51 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
-    
+
+  /clave:
+    x-swagger-router-controller: SMIDIVID
+    get:
+      security:
+        - basicAuth: []
+        - tokenAuth: []
+      description: gets the marcaList
+      operationId: getClave
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/OkResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+    post:
+      # require basic authentication on this route
+      security:
+        - basicAuth: []
+        - tokenAuth: []
+      description: Adds a new marca
+      operationId: addClave
+      parameters:
+        - name: smidivid
+          description: New Marca's information
+          in: body
+          required: true
+          schema:
+            $ref: "#/definitions/SMIDIVID"
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/OkResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  
+
+
+
   /brand:
     x-swagger-router-controller: marca
     get:
@@ -554,6 +589,14 @@ definitions:
         type: string
     required:
       - username
+  SMIDIVID:
+    type: object
+    properties:
+      clave: 
+        type: string
+        description: Clave de identificacion SMIDIV
+    required:
+      - clave
   Alarma:
     type: object
     properties:

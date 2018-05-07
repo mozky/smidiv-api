@@ -12,7 +12,7 @@ module.exports = {
         const ubicacionObject = req.swagger.params.ubicacion.value;
         if (!ubicacionObject) res.status(400).json('Error');
         const vehiculo = Vehiculo.findOne({
-            'placas': ubicacionObject.idAutomovil
+            'smidivID': ubicacionObject.smidivID
         })
         .select('_id')
         .exec(function (err, vehiculo) {
