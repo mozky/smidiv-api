@@ -1,22 +1,18 @@
 'use strict';
 
+const admin = require('firebase-admin');
+const FCM = require('fcm-node');
+const turf = require ('turf');    
+
 const config = require('../../config'); // get our config file
 const Alarma = require('../models/alarma.js');
 const User = require('../models/user.js');
 const Vehiculo = require('../models/vehiculo.js');
 const Ubicacion = require('../models/ubicacion.js');
 const Ubicacion1 = require('../models/ubicacionesFavoritas.js');
-var FCM = require('fcm-node');
-//var serverKey = ('../../google-services.json'); //put your server key here
-var serverKey = '';
-
-//var serviceAccount = require('path/to/serviceAccountKey.json');
-var turf = require ('turf');    
-var admin = require('firebase-admin');
-var fcm = new FCM(serverKey);
 
 
- 
+const fcm = new FCM(config.firebase.key);
 
 module.exports = {
     addUbicacion: function(req,res){
@@ -43,16 +39,15 @@ module.exports = {
                 })
                 .exec(function(err, fav){
     
-                    var uno = turf.point([fav.ubicacion.lat, fav.ubicacion.lat]);
-                    //console.log(fav);
-                    var dos = turf.point([ubicacionObject.ubicacion.lat, ubicacionObject.ubicacion.lon]);
-                    var options = {units: 'kilometers'};
-                    var distance = turf.distance(uno, dos, 'kilometers');
+                    const uno = turf.point([fav.ubicacion.lat, fav.ubicacion.lat]);
+                    const dos = turf.point([ubicacionObject.ubicacion.lat, ubicacionObject.ubicacion.lon]);
+                    const options = {units: 'kilometers'};
+                    const distance = turf.distance(uno, dos, 'kilometers');
                     if (distance>alarm.rangoDistancia.rango){
                         const Usuario = User.findOne({
                             "_id":vehiculo.usuario
                         }).exec(function(err,topic){
-                            var message = { //this may vary according to the message type (single recipient, multicast, topic, et cetera)
+                            const message = { //this may vary according to the message type (single recipient, multicast, topic, et cetera)
                                 to: '/topics/'+topic.username,
                                 
                                 notification: {

@@ -4,5 +4,8 @@ var dbName = 'smidiv'
 
 module.exports = {
   'secret': 'supersecretchickenhoney',
-  'dbURL': `mongodb://${host}:${port}/${dbName}` 
+  'dbURL': `mongodb://${host}:${port}/${dbName}`,
+  'firebase': {
+    'key': 'get firebase key'
+  }
 }
