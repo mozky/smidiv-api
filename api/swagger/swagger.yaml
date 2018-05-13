@@ -81,20 +81,33 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
-    
-  /OBD:
+            
+  /OBD/{vehiculo}:
     x-swagger-router-controller: obd
     get:
-      description: OBD information
+      security:
+        - basicAuth: []
+        - tokenAuth: []
+      description: Gets the user description for a given username
+      operationId: getOBD
+      parameters:
+        - name: vehiculo
+          in: path
+          description: The unique username of the user to get the data
+          required: true
+          type: string
       responses:
         "200":
-          description: Sucess
+          description: Success
           schema:
             $ref: "#/definitions/OkResponse"
         default:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
+    
+  /OBD:
+    x-swagger-router-controller: obd
     post:
       description: agregar informacion OBD2
       operationId: addOBD
@@ -113,25 +126,34 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
-    
-    
-  /ubicacionFav:
+            
+  /ubicacionFav/{usuario}:
     x-swagger-router-controller: ubicacionFav
     get:
       security:
         - basicAuth: []
         - tokenAuth: []
-      description: Obtener ubicacion
-      operationId: getUbicacionFav 
+      description: Gets the user description for a given username
+      operationId: getUbicacionFav
+      parameters:
+        - name: usuario
+          in: path
+          description: The unique username of the user to get the data
+          required: true
+          type: string
       responses:
         "200":
-          description: Sucess
+          description: Success
           schema:
             $ref: "#/definitions/OkResponse"
         default:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
+  
+  
+  /ubicacionFav:
+    x-swagger-router-controller: ubicacionFav
     post:
       description: añadir Ubicacion
       operationId: addUbicacionFav
@@ -606,9 +628,9 @@ definitions:
       vehiculo:
         type: string
         description: Alarma's vehiculo
-      tipo: 
+      ubicacionfav:
         type: string
-        description: Alarma's type
+        description: Alarma's ubicacion
       estado:
         type: string
         description: Estado de la alarma
@@ -617,20 +639,13 @@ definitions:
         properties:
           rango: 
             type: integer
-          ubic:
-            type: object
-            properties:
-              lat: 
-                type: integer
-              lon:
-                type: integer
       rangoHorario:
         type: object
         properties:
           inicio: 
-            type: integer
+            type: string
           fin:
-            type: integer
+            type: string
       fechaCreacion:
         type: string
       fechaActualizacion:
@@ -678,6 +693,7 @@ definitions:
         
     required:
     - idUsuario
+    - nombre
   User:
     type: object
     properties:

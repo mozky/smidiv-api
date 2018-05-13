@@ -7,8 +7,13 @@ const ubicacionFavoritas = db.Schema({
         required: true,
         ref:'User'
     },
+    nombre:{
+        type: String,
+        required: true,
+    },
     ubicacion:{
-        type: db.Schema.Types.ObjectId,
+        lat:{type: Number},
+        lon:{type: Number}
     },
     fechaCreacion:{
         type:Date, default: Date.now

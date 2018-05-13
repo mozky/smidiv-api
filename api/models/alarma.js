@@ -12,22 +12,20 @@ const alarmaSchema = db.Schema({
         required: true,
         ref: 'Vehiculo'
     },
-    tipo:{
-        type: String,
+    ubicacionfav:{
+        type: db.Schema.Types.ObjectId,
+        required: true,
+        ref: 'UbicacionFav'
     },
     estado:{
         type:String,
     },
     rangoDistancia:{
         rango: Number,
-        ubic :{
-            lat :{ type: Number},
-            lon :{type: Number}
-        }
     },
     rangoHorario:{
-        inicio:{type: Number, default: 0},
-        fin:{type: Number, default: 0}
+        inicio:{type: Date, default: 0},
+        fin:{type: Date, default: 0}
     },
     fechaCreacion:{
         type: Date, default: Date.now

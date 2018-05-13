@@ -4,7 +4,7 @@ const config = require('../../config'); // get our config file
 const Alarma = require('../models/alarma.js');
 const User = require('../models/user.js');
 const Ubicacion = require('../models/ubicacionesFavoritas.js');
-
+const Vehiculo = require('../models/vehiculo');
 module.exports = {
     addUbicacionFav: function(req,res){
 
@@ -36,6 +36,36 @@ module.exports = {
                     });
                 }
             });
+        });
+    },
+    getUbicacionFav: function(req, res){
+        const user = User.findOne({ 
+            'username': req.swagger.params.usuario.value,
+            'deleted': false
+        })
+        .select('_id')
+        .exec(function (err, user) {
+            if (err || !user) {
+                console.log('Error fetching ususrio, #addUbicacionFav', err)
+                res.status(400).json('Error fetching usuario')
+                return;
+            }
+            Ubicacion.find({
+                "idusuario": user._id,
+            }).exec(function (err, ubicacion){
+                if(err||!ubicacion){
+                    console.log('Error fetching vehiculo, #addUbicacion', err)
+                    res.status(400).json('Error fetching ubicacion')
+                    return;
+                }
+                res.status(200).json({
+                    sucess: true,
+                    response: {
+                        ubicaciones: ubicacion
+                    }
+                });
+            });
+
         });
     }
 }

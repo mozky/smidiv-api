@@ -36,5 +36,36 @@ module.exports = {
 
         });
 
+    },
+    getOBD: function(req, res){
+        console.log(req.swagger.params);
+        //var obdobject = req.swagger.params.vehiculo.value
+        const obd = Vehiculo.findOne({
+            'placas': req.swagger.params.vehiculo.value
+        })
+        .select('smidivID')
+        .exec(function (err, vehi) {
+            if (err || !vehi) {
+                console.log('Error fetching vehiculo, #addUbicacion', err)
+                res.status(400).json('Error fetching vehicle')
+                return;
+            }
+            Obd.findOne({
+                "smidivID": vehi._id,
+            }).exec(function (err, ubicacion){
+                if(err||!ubicacion){
+                    console.log('Error fetching vehiculo, #addUbicacion', err)
+                    res.status(400).json('Error fetching vehicle')
+                    return;
+                }
+                res.status(200).json({
+                    sucess: true,
+                    response: {
+                        ubicaciones: ubicacion
+                    }
+                });
+            });
+
+        });
     }
 }

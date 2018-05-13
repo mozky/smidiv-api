@@ -5,7 +5,11 @@ const Alarma = require('../models/alarma.js');
 const User = require('../models/user.js');
 const Vehiculo = require('../models/vehiculo.js');
 const Ubicacion = require('../models/ubicacion.js');
-
+var FCM = require('fcm-node');
+var serverKey = ('../../google-services.json'); //put your server key here
+var turf = ('turf');    
+var fcm = new FCM(serverKey);
+ 
 module.exports = {
     addUbicacion: function(req,res){
 
@@ -27,6 +31,29 @@ module.exports = {
                     if (err.code == 11000) res.status(400).json('Ubicacion ya guardada');
                     return console.error(err);
                 } else {
+                    
+               /* var message = { //this may vary according to the message type (single recipient, multicast, topic, et cetera)
+                    to: 'registration_token', 
+                    collapse_key: 'your_collapse_key',
+                    
+                    notification: {
+                        title: 'Title of your push notification', 
+                        body: 'Body of your push notification' 
+                    },
+                    
+                    data: {  //you can send only notification or only data(or include both)
+                        my_key: 'my value',
+                        my_another_key: 'my another value'
+                    }
+                }
+                
+                fcm.send(message, function(err, response){
+                    if (err) {
+                        console.log("Something has gone wrong!")
+                    } else {
+                        console.log("Successfully sent with response: ", response)
+                    }
+                })*/
                     console.log('New ubicacion saved', nuevaUbicacion)
 
                     res.json({
