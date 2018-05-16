@@ -15,6 +15,9 @@ const ubicacionSchema = db.Schema({
     fechaCreacion:{
         type: Date, default: Date.now
     },
+    deleted: {
+        type: Boolean, default: false
+    }
 });
 
 const Ubicacion = db.model('Ubicacion',ubicacionSchema);

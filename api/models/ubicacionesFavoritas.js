@@ -20,6 +20,9 @@ const ubicacionFavoritas = db.Schema({
     },
     fechaActualizacion:{
         type:Date, default: Date.now
+    },
+    deleted: {
+        type: Boolean, default: false
     }
 });
 const UbicacionFav = db.model('UbicacionFav', ubicacionFavoritas);

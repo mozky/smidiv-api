@@ -133,7 +133,7 @@ paths:
       security:
         - basicAuth: []
         - tokenAuth: []
-      description: Gets the user description for a given username
+      description: Gets the ubications description for a given username
       operationId: getUbicacionFav
       parameters:
         - name: usuario
@@ -150,8 +150,27 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
-  
-  
+    delete:
+      security:
+        - basicAuth: []
+        - tokenAuth: []
+      description: Deletes the user for the given username
+      operationId: deleteUbicacionFav
+      parameters:
+        - name: usuario
+          in: path
+          description: The unique id of the ubication to delete
+          required: true
+          type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/StringResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
   /ubicacionFav:
     x-swagger-router-controller: ubicacionFav
     post:
