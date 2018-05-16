@@ -7,7 +7,6 @@ const Ubicacion = require('../models/ubicacionesFavoritas.js');
 const Vehiculo = require('../models/vehiculo');
 module.exports = {
     addUbicacionFav: function(req,res){
-
         const ubicacionObject = req.swagger.params.ubicacionFav.value;
         console.log(ubicacionObject);
         if (!ubicacionObject) res.status(400).json('Error');
@@ -31,7 +30,7 @@ module.exports = {
                     console.log('New ubicacion saved', nuevaUbicacion)
 
                     res.json({
-                        sucess: true,
+                        success: true,
                         response: nuevaUbicacion
                     });
                 }
@@ -59,7 +58,7 @@ module.exports = {
                     return;
                 }
                 res.status(200).json({
-                    sucess: true,
+                    success: true,
                     response: {
                         ubicaciones: ubicacion
                     }

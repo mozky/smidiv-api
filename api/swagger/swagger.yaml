@@ -53,7 +53,7 @@ paths:
             $ref: "#/definitions/LoginRequest"
       responses:
         "200":
-          description: Sucess
+          description: Success
           schema:
             $ref: "#/definitions/AuthenticationResponse"
         default:
@@ -155,6 +155,9 @@ paths:
   /ubicacionFav:
     x-swagger-router-controller: ubicacionFav
     post:
+      security:
+        - basicAuth: []
+        - tokenAuth: []
       description: añadir Ubicacion
       operationId: addUbicacionFav
       parameters:
@@ -180,7 +183,7 @@ paths:
       operationId: getUbicacion      
       responses:
         "200":
-          description: Sucess
+          description: Success
           schema:
             $ref: "#/definitions/OkResponse"
         default:
@@ -270,10 +273,6 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
-  
-
-
-
   /brand:
     x-swagger-router-controller: marca
     get:
@@ -368,7 +367,7 @@ paths:
       operationId: getAlarma
       responses:
         "200":
-          description: Sucess
+          description: Success
           schema:
             $ref: "#/definitions/OkResponse"
         default:
@@ -773,12 +772,12 @@ definitions:
   OkResponse:
     required:
       - response
-      - sucess
+      - success
     properties:
       response:
         type: object
         properties: {}
-      sucess:
+      success:
         type: boolean
   ErrorResponse:
     required:
