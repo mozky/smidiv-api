@@ -106,7 +106,7 @@ module.exports = {
                     return;
                 }
                 res.status(200).json({
-                    sucess: true,
+                    success: true,
                     response: {
                         ubicaciones: ubicacion
                     }
@@ -135,7 +135,7 @@ module.exports = {
                     return;
                 }
                 res.status(200).json({
-                    sucess: true,
+                    success: true,
                     response: {
                         ubicaciones: ubicacion
                     }

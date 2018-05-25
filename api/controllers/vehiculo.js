@@ -74,5 +74,32 @@ module.exports = {
                     }
                 })
             })
+    },
+    getVehiculo: function(req, res){
+            User.findOne({
+                "username": req.swagger.params.usuario.value
+            }).select("_id").exec(function(err,usuario){
+                if(err || !usuario){
+                    console.log("Error obteniendo al usuario");
+                    res.status(400).json("error encontrando el usuario");
+                }
+                Vehiculo.findOne({
+                    "usuario":usuario
+                }).exec(function(err,auto){
+                    if(err || !auto){
+                        console.log("error obteniendo el vehiculo");
+                        res.status(400).json("error en vehiculo");
+                    }
+                    console.log("sent");
+                    res.json({
+                            success: true,
+                            response:{
+                                vehiculo: auto
+                            }
+                    })
+            })
+
+        })
     }
+
 }

@@ -2,11 +2,9 @@ const Mongoose = require('../helpers/mongo_connector')
 const db = Mongoose.db;
 
 const obdSchema = db.Schema({
-    vehiculo:{
-        type: db.Schema.Types.ObjectId,
-        required: true,
-        ref: 'Vehiculo'
-    },
+    smidivID:{
+               type: String
+             },
     tipo:{
         type: String
     },

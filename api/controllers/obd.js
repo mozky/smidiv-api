@@ -38,7 +38,6 @@ module.exports = {
 
     },
     getOBD: function(req, res){
-        console.log(req.swagger.params);
         //var obdobject = req.swagger.params.vehiculo.value
         const obd = Vehiculo.findOne({
             'placas': req.swagger.params.vehiculo.value
@@ -46,20 +45,21 @@ module.exports = {
         .select('smidivID')
         .exec(function (err, vehi) {
             if (err || !vehi) {
-                console.log('Error fetching vehiculo, #addUbicacion', err)
+                console.log('Error fetching vehicle, #getOBD', err)
                 res.status(400).json('Error fetching vehicle')
                 return;
             }
+            console.log(vehi);
             Obd.findOne({
-                "smidivID": vehi._id,
+                "smidivID": vehi.smidivID,
             }).exec(function (err, ubicacion){
                 if(err||!ubicacion){
-                    console.log('Error fetching vehiculo, #addUbicacion', err)
-                    res.status(400).json('Error fetching vehicle')
+                    console.log('Error fetching obd, #getOBD', err)
+                    res.status(400).json('Error fetching OBD')
                     return;
                 }
                 res.status(200).json({
-                    sucess: true,
+                    success: true,
                     response: {
                         ubicaciones: ubicacion
                     }
