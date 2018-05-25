@@ -50,10 +50,10 @@ module.exports = {
                 return;
             }
             console.log(vehi);
-            Obd.findOne({
+            Obd.find({
                 "smidivID": vehi.smidivID,
-            }).exec(function (err, ubicacion){
-                if(err||!ubicacion){
+            }).exec(function (err, pid){
+                if(err||!pid){
                     console.log('Error fetching obd, #getOBD', err)
                     res.status(400).json('Error fetching OBD')
                     return;
@@ -61,7 +61,7 @@ module.exports = {
                 res.status(200).json({
                     success: true,
                     response: {
-                        ubicaciones: ubicacion
+                        OBD:pid
                     }
                 });
             });
