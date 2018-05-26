@@ -150,27 +150,6 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
-    delete:
-      security:
-        - basicAuth: []
-        - tokenAuth: []
-      description: Deletes the user for the given username
-      operationId: deleteUbicacionFav
-      parameters:
-        - name: usuario
-          in: path
-          description: The unique id of the ubication to delete
-          required: true
-          type: string
-      responses:
-        "200":
-          description: Success
-          schema:
-            $ref: "#/definitions/StringResponse"
-        default:
-          description: Error
-          schema:
-            $ref: "#/definitions/ErrorResponse"
   /ubicacionFav:
     x-swagger-router-controller: ubicacionFav
     post:
@@ -194,7 +173,49 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
-    
+    patch:
+      security:
+        - basicAuth: []
+        - tokenAuth: []
+      description: Editar una Ubicacion
+      operationId: updateUbicacionFav
+      parameters:
+        - name: ubicacionFav
+          in: body
+          required: true
+          schema:
+            $ref: "#/definitions/UbicacionFavUpdate"
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/OkResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+    delete:
+      security:
+        - basicAuth: []
+        - tokenAuth: []
+      description: Deletes the given ubicacion favorita
+      operationId: deleteUbicacionFav
+      parameters:
+        - name: ubicacionFav
+          in: body
+          description: The ubication to get deleted
+          required: true
+          schema:
+            $ref: "#/definitions/UbicacionFavUpdate"
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/StringResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
   /ubicacion:
     x-swagger-router-controller: ubicacion
     get:
@@ -283,29 +304,6 @@ paths:
           required: true
           schema:
             $ref: "#/definitions/SMIDIVID"
-      responses:
-        "200":
-          description: Success
-          schema:
-            $ref: "#/definitions/OkResponse"
-        default:
-          description: Error
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-  /vehicle/{usuario}:
-    x-swagger-router-controller: vehiculo
-    get:
-      security:
-        - basicAuth: []
-        - tokenAuth: []
-      description: Gets the user description for a given username
-      operationId: getVehiculo
-      parameters:
-        - name: usuario
-          in: path
-          description: The unique username of the user to get the data
-          required: true
-          type: string
       responses:
         "200":
           description: Success
@@ -731,10 +729,28 @@ definitions:
       fechaActualizacion:
         type: string
         format: date
-        
     required:
     - idUsuario
     - nombre
+    - ubicacion
+  UbicacionFavUpdate:
+    type: object
+    properties:
+      idUbicacion:
+        type: string
+        description: Ubicacion ligada al automovil
+      nombre:
+        type: string
+        description: nombre de la ubicacion
+      ubicacion:
+        type: object
+        properties:
+          lat:
+            type: number
+          lng: 
+            type: number
+    required:
+    - idUbicacion
   User:
     type: object
     properties:

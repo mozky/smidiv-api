@@ -1,5 +1,5 @@
-const Mongoose = require('../helpers/mongo_connector');
-const db = Mongoose.db;
+const Mongoose = require('../helpers/mongo_connector')
+const db = Mongoose.db
 
 const ubicacionFavoritas = db.Schema({
     idusuario:{
@@ -24,6 +24,7 @@ const ubicacionFavoritas = db.Schema({
     deleted: {
         type: Boolean, default: false
     }
-});
-const UbicacionFav = db.model('UbicacionFav', ubicacionFavoritas);
-module.exports = UbicacionFav;
+})
+
+const UbicacionFav = db.model('UbicacionFav', ubicacionFavoritas)
+module.exports = UbicacionFav

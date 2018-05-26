@@ -7,12 +7,43 @@ const UbicacionFav = require('../models/ubicacionesFavoritas.js')
 const Vehiculo = require('../models/vehiculo')
 
 module.exports = {
-    deleteUbicacionFav: function(req,res) {
-        const ubicacionId = req.swagger.params.usuario.value
+    updateUbicacionFav: function (req, res) {
+        const { idUbicacion, nombre, ubicacion } = req.swagger.params.ubicacionFav.value
 
-        if (!ubicacionId) res.status(400).json('Error')
+        if (!idUbicacion) res.status(400).json('Error')
+
+        const updates = {
+            fechaActualizacion: new Date()
+        }
+
+        if (nombre) 
+            updates.nombre = nombre
+
+        if (ubicacion.lat && ubicacion.lng)
+            updates.ubicacion = ubicacion
+
         UbicacionFav.findOneAndUpdate({
-            _id: ubicacionId
+            _id: idUbicacion
+        }, {
+            $set: updates
+        }, {
+            new: true
+        }, function (err, updatedUbicacion) {
+            if (err || !updatedUbicacion) {
+                res.status(500).json('Error updating ubicacion')
+                return console.error(err)
+            } else {
+                console.log(updatedUbicacion);
+                res.json(updatedUbicacion.nombre + ' updated')
+            }
+        })
+    },
+    deleteUbicacionFav: function(req,res) {
+        const { idUbicacion } = req.swagger.params.ubicacionFav.value
+
+        if (!idUbicacion) res.status(400).json('Error')
+        UbicacionFav.findOneAndUpdate({
+            _id: idUbicacion
         }, {
             $set: {
                 deleted: true,
@@ -26,7 +57,7 @@ module.exports = {
                 return console.error(err)
             } else {
                 console.log(deletedUbicacion)
-                res.json(ubicacionId + ' deleted')
+                res.json(idUbicacion + ' deleted')
             }
         })
     },
@@ -34,7 +65,7 @@ module.exports = {
         const ubicacionObject = req.swagger.params.ubicacionFav.value
 
         if (!ubicacionObject) res.status(400).json('Error')
-        const user = User.findOne({ 
+        User.findOne({ 
             'username': ubicacionObject.idUsuario,
             'deleted': false
         })
