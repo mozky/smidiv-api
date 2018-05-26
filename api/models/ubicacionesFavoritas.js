@@ -13,7 +13,7 @@ const ubicacionFavoritas = db.Schema({
     },
     ubicacion:{
         lat:{type: Number},
-        lon:{type: Number}
+        lng:{type: Number}
     },
     fechaCreacion:{
         type:Date, default: Date.now

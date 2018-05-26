@@ -680,7 +680,7 @@ definitions:
         properties:
           lat:
             type: number
-          lon: 
+          lng: 
             type: number
       fechaCreacion:
         type: string
@@ -700,7 +700,7 @@ definitions:
         properties:
           lat:
             type: number
-          lon: 
+          lng: 
             type: number
       fechaCreacion:
         type: string
