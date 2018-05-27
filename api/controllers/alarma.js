@@ -53,7 +53,7 @@ module.exports = {
                                 console.log('New alarma saved', nuevaAlarma)
         
                                 res.json({
-                                    sucess: true,
+                                    success: true,
                                     response: nuevaAlarma
                                 });
                             }
@@ -87,7 +87,7 @@ module.exports = {
                     return;
                 }
                 res.status(200).json({
-                    sucess: true,
+                    success: true,
                     response: {
                         ubicaciones: ubicacion
                     }

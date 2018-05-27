@@ -17,7 +17,7 @@ module.exports = {
                 console.log('New clave saved', clav)
 
                 res.json({
-                    sucess: true,
+                    success: true,
                     response: clav
                 });
             }
@@ -29,7 +29,7 @@ module.exports = {
                 res.status(403).json("Error obteniendo la alarma");
             }
             res.json({
-                sucess: true,
+                success: true,
                 response: {
                     marcas: marca
                 }

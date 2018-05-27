@@ -479,6 +479,9 @@ paths:
     # our controller name
     x-swagger-router-controller: user
     patch:
+      security:
+        - basicAuth: []
+        - tokenAuth: []
       description: Updates a user by username
       operationId: updateUser
       parameters:
@@ -781,6 +784,8 @@ definitions:
         format: password
       email:
         type: string
+      profile:
+        type: object
   StringResponse:
     required:
       - message

@@ -28,7 +28,7 @@ module.exports = {
                     console.log('New obd saved', nobd)
 
                     res.json({
-                        sucess: true,
+                        success: true,
                         response: nobd
                     });
                 }

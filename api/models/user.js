@@ -9,7 +9,11 @@ const userSchema = db.Schema({
   profile: {
     firstName: String,
     lastName: String,
-    age: Number
+    birthday: Date,
+  },
+  vehiculo: {
+    type: db.Schema.Types.ObjectId,
+    ref: 'Vehiculo'
   },
   deleted: { type: Boolean, default: false },
   dateCreated: { type: Date, default: Date.now },

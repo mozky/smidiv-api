@@ -1,10 +1,10 @@
 'use strict';
 
-const util = require('util');
-const passwordHash = require('password-hash');
-const User = require('../models/user.js');
-const jwt = require('jsonwebtoken'); // used to create, sign, and verify tokens
-const config = require('../../config'); // get our config file
+const util = require('util')
+const passwordHash = require('password-hash')
+const User = require('../models/user.js')
+const jwt = require('jsonwebtoken') // used to create, sign, and verify tokens
+const config = require('../../config') // get our config file
 
 
 module.exports = {
@@ -36,6 +36,11 @@ module.exports = {
 
         // selecting the desired fields
         query.select('_id username email profile')
+
+        query.populate({
+            path: 'vehiculo',
+            select: '_id marca modelo smidivID placas'
+        })
 
         // execute the query
         query.exec(function (err, user) {
@@ -97,14 +102,16 @@ module.exports = {
 
     },
     updateUser: function (req, res) {
-        const username = req.swagger.params.username.value;
+        const username = req.swagger.params.username.value
         console.log('username', username)
-        const updates = req.swagger.params.updates.value;
-        console.log('updates', updates);
 
-        if (!updates || !username) res.status(400).json('Error');
+        const updates = req.swagger.params.updates.value
+        if (updates.password)
+            updates.password = passwordHash.generate(updates.password)
 
-        updates.dateUpdated = new Date();
+        if (!updates || !username) res.status(400).json('Error')
+
+        updates.dateUpdated = new Date()
 
         User.findOneAndUpdate({
             username: username
@@ -114,13 +121,13 @@ module.exports = {
             new: true
         }, function (err, updatedUser) {
             if (err || !updatedUser) {
-                res.status(500).json('Error updating user');
-                return console.error(err);
+                res.status(500).json('Error updating user')
+                return console.error(err)
             } else {
-                console.log(updatedUser);
-                res.json(username + ' updated');
+                console.log(updatedUser)
+                res.json(username + ' updated')
             }
-        });
+        })
     },
     deleteUser: function (req, res) {
         const username = req.swagger.params.username.value;

@@ -46,7 +46,7 @@ module.exports = {
                     console.log('New ubicacion saved', nuevaUbicacion)
 
                     res.json({
-                        sucess: true,
+                        success: true,
                         response: nuevaUbicacion
                     })
                 }

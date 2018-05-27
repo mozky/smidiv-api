@@ -18,25 +18,23 @@ module.exports = {
                 console.log('New marca saved', nuevaMarca)
 
                 res.json({
-                    sucess: true,
+                    success: true,
                     response: nuevaMarca
                 });
             }
         });
     },
-    getMarcaList: function(req, res){
-       Marca.find().exec(function (err, marca) {
-            if(err){
+    getMarcaList: function(req, res) {
+        Marca.find().exec(function (err, marca) {
+            if(err) {
                 res.status(403).json("Error obteniendo la alarma");
             }
             res.json({
-                sucess: true,
+                success: true,
                 response: {
                     marcas: marca
                 }
             })
         })
-
-
     }
 }
