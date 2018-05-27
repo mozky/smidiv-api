@@ -39,7 +39,11 @@ module.exports = {
 
         query.populate({
             path: 'vehiculo',
-            select: '_id marca modelo smidivID placas'
+            select: '_id modelo smidivID placas',
+            populate: {
+                path: 'marca',
+                select: 'nombre'
+            }
         })
 
         // execute the query
