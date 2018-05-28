@@ -771,6 +771,14 @@ definitions:
       estado:
         type: boolean
         description: el estado de la alarma
+      rangoHorario:
+        type: object
+        properties:
+          inicio: 
+            type: string
+          fin: 
+            type: string
+        description: rangos
     required:
     - idAlarma
   Ubicacion:

@@ -8,7 +8,7 @@ const UbicacionFav = require('../models/ubicacionesFavoritas.js')
 
 module.exports = {
     addAlarma: function(req, res) {
-        const alertaObject = req.swagger.params.alarma.value;
+        const alertaObject = req.swagger.params.alarma.value
         if (!alertaObject) res.status(400).json('Error')
 
         User.findOne({
@@ -22,7 +22,7 @@ module.exports = {
         })
         .exec(function (err, user) {
             if (err || !user) {
-                console.log('Error fetching user, #addVehiculo', err)
+                console.log('Error fetching user, #addAlarma', err)
                 res.status(400).json('Error fetching user')
                 return
             }
@@ -30,7 +30,7 @@ module.exports = {
             alertaObject.usuario = user._id
             alertaObject.vehiculo = user.vehiculo._id
 
-            if (alertaObject.ubicacionFav != '') {
+            if (alertaObject.ubicacionFav) {
                 UbicacionFav.findOne({
                     "idusuario": user._id,
                     "nombre": alertaObject.ubicacionFav,
@@ -38,12 +38,13 @@ module.exports = {
                 .select('_id')
                 .exec(function (err, ubi) {
                     if (err || !ubi) {
-                        console.log('Error fetching ubicacion, #addUbicacion', err)
-                        res.status(400).json('Error fetching ubicacion')
+                        console.log('Error adding alarma, #addAlarma', err)
+                        res.status(400).json('Error adding alarma')
                         return
                     }
     
                     alertaObject.ubicacionfav = ubi._id
+                    alertaObject.rangoHorario = undefined
                     alertaObject.rangoDistancia = alertaObject.rangoDistancia ? alertaObject.rangoDistancia : 3
     
                     new Alarma(alertaObject).save(function (err, nuevaAlarma) {
@@ -58,6 +59,19 @@ module.exports = {
                             })
                         }
                     })
+                })
+            } else {
+                new Alarma(alertaObject).save(function (err, nuevaAlarma) {
+                    if (err) {
+                        if (err.code == 11000) res.status(400).json('Alarma ya guardada')
+                        return console.error(err)
+                    } else {
+                        console.log('Nueva alarma tipo ubicacion guardada', nuevaAlarma)
+                        res.json({
+                            success: true,
+                            response: nuevaAlarma
+                        })
+                    }
                 })
             }
         })

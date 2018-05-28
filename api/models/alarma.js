@@ -25,10 +25,11 @@ const alarmaSchema = db.Schema({
     },
     rangoDistancia: {
         rango: Number,
+        default: 0
     },
     rangoHorario: {
-        inicio: Date,
-        fin: Date
+        inicio: String,
+        fin: String
     },
     deleted: {
         type: Boolean,
