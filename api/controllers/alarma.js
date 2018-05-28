@@ -1,73 +1,68 @@
 'use strict';
 
-const config = require('../../config'); // get our config file
-const Alarma = require('../models/alarma.js');
-const User = require('../models/user.js');
-const Vehiculo = require('../models/vehiculo.js');
-const Ubicacion = require('../models/ubicacionesFavoritas.js');
+const config = require('../../config') // get our config file
+const Alarma = require('../models/alarma.js')
+const User = require('../models/user.js')
+const Vehiculo = require('../models/vehiculo.js')
+const UbicacionFav = require('../models/ubicacionesFavoritas.js')
 
 module.exports = {
-    addAlarma: function(req,res){
+    addAlarma: function(req, res) {
         const alertaObject = req.swagger.params.alarma.value;
-        //console.log(alertaObject);
-        if (!alertaObject) res.status(400).json('Error');
+        if (!alertaObject) res.status(400).json('Error')
 
-        // we find the userId using the username from the request
-        const user = User.findOne({
-                'username': alertaObject.username,
-                'deleted': false
-            })
-            .select('_id')
-            .exec(function (err, user) {
-                if (err || !user) {
-                    console.log('Error fetching user, #addVehiculo', err)
-                    res.status(400).json('Error fetching user')
-                    return;
-                }
-                const vehiculo = Vehiculo.findOne({
-                    'placas':alertaObject.vehiculo,
-                }).select('_id').exec(function (err, auto){
-                    if(err || !auto){
-                        console.log("Error fetching auto , #addMarca", err)
-                        res.status(400).json('Error obteniendo el auto')
-                        return;
-                    }
-                    Ubicacion.findOne({
-                        "nombre": alertaObject.ubicacionfav,
-                    }).select('_id').exec(function (err, ubi){
-                        if(err||!ubi){
-                            console.log('Error fetching vehiculo, #addUbicacion', err)
-                            res.status(400).json('Error fetching ubicacion')
-                            return;
-                        }
-                        console.log("hola");
-                        console.log(ubi._id);
-                        alertaObject.usuario = user._id;
-                        alertaObject.vehiculo = auto._id;
-                        alertaObject.ubicacionfav = ubi.id;
-                        new Alarma(alertaObject).save(function (err, nuevaAlarma) {
-                            if (err) {
-                                if (err.code == 11000) res.status(400).json('Alerta ya guardada');
-                                return console.error(err);
-                            } else {
-                                console.log('New alarma saved', nuevaAlarma)
-        
-                                res.json({
-                                    success: true,
-                                    response: nuevaAlarma
-                                });
-                            }
-                        });
-                    });
-                    
+        User.findOne({
+            'username': alertaObject.username,
+            'deleted': false
+        })
+        .select('_id')
+        .populate({
+            path: 'vehiculo',
+            select: '_id'
+        })
+        .exec(function (err, user) {
+            if (err || !user) {
+                console.log('Error fetching user, #addVehiculo', err)
+                res.status(400).json('Error fetching user')
+                return
+            }
 
-                
+            alertaObject.usuario = user._id
+            alertaObject.vehiculo = user.vehiculo._id
+
+            if (alertaObject.ubicacionFav != '') {
+                UbicacionFav.findOne({
+                    "idusuario": user._id,
+                    "nombre": alertaObject.ubicacionFav,
                 })
-
-                
-            })
+                .select('_id')
+                .exec(function (err, ubi) {
+                    if (err || !ubi) {
+                        console.log('Error fetching ubicacion, #addUbicacion', err)
+                        res.status(400).json('Error fetching ubicacion')
+                        return
+                    }
+    
+                    alertaObject.ubicacionfav = ubi._id
+                    alertaObject.rangoDistancia = alertaObject.rangoDistancia ? alertaObject.rangoDistancia : 3
+    
+                    new Alarma(alertaObject).save(function (err, nuevaAlarma) {
+                        if (err) {
+                            if (err.code == 11000) res.status(400).json('Alarma ya guardada')
+                            return console.error(err)
+                        } else {
+                            console.log('Nueva alarma tipo ubicacion guardada', nuevaAlarma)
+                            res.json({
+                                success: true,
+                                response: nuevaAlarma
+                            })
+                        }
+                    })
+                })
+            }
+        })
     },
-    getAlarma(){
+    getAlarma: function(req, res)  {
         const vehiculo = Vehiculo.findOne({
             'placas': req.swagger.params.vehiculo.value
         })
@@ -91,9 +86,82 @@ module.exports = {
                     response: {
                         ubicaciones: ubicacion
                     }
-                });
-            });
+                })
+            })
+        })
+    },
+    getAlarmasUsuario: function(req, res)  {
+        User.findOne({
+            'username': req.swagger.params.usuario.value,
+            'deleted': false
+        })
+        .select('_id username email profile')
+        .populate({
+            path: 'vehiculo',
+            select: '_id smidivID ',
 
-        });
+        })
+        .exec(function (err, user) {
+            if (err) {
+                console.log('Error #getAlarmaUsuario', err)
+                return res.status(500).json('Server error')
+            }
+
+            if (!user || !user.vehiculo || !user.vehiculo._id) {
+                return res.status(400).json('Cannot find user or vehicle')
+            }
+
+            Alarma.find({
+                "usuario": user._id,
+                "vehiculo": user.vehiculo._id,
+                "deleted": false
+            })
+            .select('_id nombre estado rangoDistancia rangoHorario')
+            .populate({
+                path: 'ubicacionfav',
+                select: '_id nombre ubicacion'
+            })
+            .exec(function (err, alarmas){
+                if (err) {
+                    console.log('Error #getAlarmaUsuario', err)
+                    res.status(500).json('Error fetching alarmas')
+                    return;
+                }
+
+                if (!alarmas) {
+                    alarmas = []
+                }
+
+                res.status(200).json({
+                    success: true,
+                    response: {
+                        alarmas
+                    }
+                })
+            })
+        })
+    },
+    deleteAlarma: function(req, res) {
+        const { idAlarma } = req.swagger.params.alarma.value
+
+        if (!idAlarma) res.status(400).json('Error')
+        Alarma.findOneAndUpdate({
+            _id: idAlarma
+        }, {
+            $set: {
+                deleted: true,
+                dateUpdated: new Date()
+            }
+        }, {
+            new: true
+        }, function (err, deletedAlarm) {
+            if (err || !deletedAlarm) {
+                res.status(500).json('Error deleting alarm')
+                return console.error(err)
+            } else {
+                console.log(deletedAlarm)
+                res.json(idAlarma + ' deleted')
+            }
+        })
     }
 }

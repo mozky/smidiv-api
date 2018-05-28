@@ -126,7 +126,6 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
-            
   /ubicacionFav/{usuario}:
     x-swagger-router-controller: ubicacionFav
     get:
@@ -436,7 +435,51 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
-      
+    delete:
+      security:
+        - basicAuth: []
+        - tokenAuth: []
+      description: Deletes the given ubicacion favorita
+      operationId: deleteAlarma
+      parameters:
+        - name: alarma
+          in: body
+          description: The alarm to get deleted
+          required: true
+          schema:
+            $ref: "#/definitions/AlarmaUpdate"
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/StringResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /alarma/{usuario}:
+    x-swagger-router-controller: alarma
+    get:
+      security:
+        - basicAuth: []
+        - tokenAuth: []
+      description: Gets the alarms for a given username
+      operationId: getAlarmasUsuario
+      parameters:
+        - name: usuario
+          in: path
+          description: The unique username of the user to get the data
+          required: true
+          type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/OkResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
   /user:
     # our controller name
     x-swagger-router-controller: user
@@ -664,6 +707,9 @@ definitions:
   Alarma:
     type: object
     properties:
+      nombre:
+        type: string
+        description: el nombre de la alarma
       username:
         type: string
         description: Alarma's owner
@@ -692,7 +738,17 @@ definitions:
         type: string
       fechaActualizacion:
         type: string
-  
+  AlarmaUpdate:
+    type: object
+    properties:
+      idAlarma:
+        type: string
+        description: Ubicacion ligada al automovil
+      nombre:
+        type: string
+        description: nombre de la alarma
+    required:
+    - idAlarma
   Ubicacion:
     type: object
     properties:

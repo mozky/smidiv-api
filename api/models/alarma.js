@@ -1,5 +1,5 @@
-const Mongoose = require('../helpers/mongo_connector');
-const db = Mongoose.db;
+const Mongoose = require('../helpers/mongo_connector')
+const db = Mongoose.db
 
 const alarmaSchema = db.Schema({
     usuario: {
@@ -7,35 +7,41 @@ const alarmaSchema = db.Schema({
         required: true,
         ref: 'User'
     },
-    vehiculo:{
+    vehiculo: {
         type: db.Schema.Types.ObjectId,
         required: true,
         ref: 'Vehiculo'
     },
-    ubicacionfav:{
+    ubicacionfav: {
         type: db.Schema.Types.ObjectId,
-        required: true,
         ref: 'UbicacionFav'
     },
-    estado:{
-        type:String,
+    estado: {
+        type: Boolean,
+        default: true
     },
-    rangoDistancia:{
+    nombre: {
+        type: String
+    },
+    rangoDistancia: {
         rango: Number,
     },
-    rangoHorario:{
-        inicio:{type: Date, default: 0},
-        fin:{type: Date, default: 0}
+    rangoHorario: {
+        inicio: Date,
+        fin: Date
     },
-    fechaCreacion:{
+    deleted: {
+        type: Boolean,
+        default: false
+    },
+    fechaCreacion: {
         type: Date, default: Date.now
     },
-    fechaActualizacion:{
+    fechaActualizacion: {
         type: Date, default: Date.now
     }
+})
 
-});
+const Alarma = db.model('Alarma', alarmaSchema)
 
-const Alarma = db.model('Alarma', alarmaSchema);
-
-module.exports = Alarma;
+module.exports = Alarma
