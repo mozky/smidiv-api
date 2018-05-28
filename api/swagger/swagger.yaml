@@ -435,6 +435,27 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
+    patch:
+      security:
+        - basicAuth: []
+        - tokenAuth: []
+      description: Editar una alarma
+      operationId: updateAlarma
+      parameters:
+        - name: alarma
+          in: body
+          required: true
+          schema:
+            $ref: "#/definitions/AlarmaUpdate"
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/OkResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
     delete:
       security:
         - basicAuth: []
@@ -747,6 +768,9 @@ definitions:
       nombre:
         type: string
         description: nombre de la alarma
+      estado:
+        type: boolean
+        description: el estado de la alarma
     required:
     - idAlarma
   Ubicacion:

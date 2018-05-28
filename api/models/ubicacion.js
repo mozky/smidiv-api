@@ -1,7 +1,6 @@
 const Mongoose = require('../helpers/mongo_connector')
 const db = Mongoose.db;
 
-
 const ubicacionSchema = db.Schema({
     idAutomovil:{
         type: db.Schema.Types.ObjectId,

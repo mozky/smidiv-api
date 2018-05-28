@@ -2,7 +2,7 @@
 
 const admin = require('firebase-admin')
 const FCM = require('fcm-node')
-const turf = require ('turf')    
+const turf = require ('turf')
 
 const config = require('../../config') // get our config file
 const Alarma = require('../models/alarma.js')
@@ -63,7 +63,6 @@ module.exports = {
                     "idusuario": vehiculo.usuario._id
                 })
                 .exec(function(err, fav){
-    
                     const P1 = turf.point([fav.ubicacion.lat, fav.ubicacion.lng])
                     const P2 = turf.point([ubicacionObject.ubicacion.lat, ubicacionObject.ubicacion.lng])
                     const distanciaP1P2 = turf.distance(P1, P2, 'kilometers')

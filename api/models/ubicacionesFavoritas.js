@@ -2,23 +2,23 @@ const Mongoose = require('../helpers/mongo_connector')
 const db = Mongoose.db
 
 const ubicacionFavoritas = db.Schema({
-    idusuario:{
+    idusuario: {
         type: db.Schema.Types.ObjectId,
         required: true,
         ref:'User'
     },
-    nombre:{
+    nombre: {
         type: String,
         required: true,
     },
-    ubicacion:{
+    ubicacion: {
         lat:{type: Number},
         lng:{type: Number}
     },
-    fechaCreacion:{
+    fechaCreacion: {
         type:Date, default: Date.now
     },
-    fechaActualizacion:{
+    fechaActualizacion: {
         type:Date, default: Date.now
     },
     deleted: {

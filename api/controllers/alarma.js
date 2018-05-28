@@ -163,5 +163,34 @@ module.exports = {
                 res.json(idAlarma + ' deleted')
             }
         })
-    }
+    },
+    updateAlarma: function (req, res) {
+        const { idAlarma, nombre, estado } = req.swagger.params.alarma.value
+
+        if (!idAlarma) res.status(400).json('Error')
+
+        const updates = {
+            fechaActualizacion: new Date()
+        }
+
+        if (nombre) 
+            updates.nombre = nombre
+
+        updates.estado = estado
+
+        Alarma.findOneAndUpdate({
+            _id: idAlarma
+        }, {
+            $set: updates
+        }, {
+            new: true
+        }, function (err, updatedAlarma) {
+            if (err || !updatedAlarma) {
+                res.status(500).json('Error updating alarm')
+                return console.error(err)
+            } else {
+                res.json(updatedAlarma.nombre + ' updated')
+            }
+        })
+    },
 }
