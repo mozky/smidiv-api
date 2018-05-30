@@ -8,6 +8,7 @@ const Obd = require('../models/obd')
 module.exports = {
     addOBD: function(req, res){
         const obdObject = req.swagger.params.obd.value;
+        const ubicacion = JSON.parse('{"smidivID":"ABC123","lat":0,"lng":0}');
         if (!obdObject) res.status(400).json('Error');
         const vehiculo = Vehiculo.findOne({
             'smidivID': obdObject.smidivID
@@ -20,19 +21,41 @@ module.exports = {
                 return;
             }
             obdObject.vehiculo=vehiculo._id;
-            new Obd(obdObject).save(function(err,nobd){
-                if (err) {
-                    if (err.code == 11000) res.status(400).json('Ubicacion ya guardada');
-                    return console.error(err);
-                } else {
-                    console.log('New obd saved', nobd)
+            ubicacion.idAutomovil=vehiculo._id;
+            obdObject.PID.map(function(x){
+                if(x.lat){    
+                    
+                    ubicacion.lat = x.lat;
+                    ubicacion.lng= x.lng;  
+                      
+                    new Ubicacion(ubicacion).save(function (err, nuevaUbicacion) {
+                        if (err) {
+                            if (err.code == 11000) res.status(400).json('Ubicacion ya guardada')
+                            return console.error(err)
+                        } else {
+                            console.log('New ubicacion saved', nuevaUbicacion)
+                        }
+                    })
 
-                    res.json({
-                        success: true,
-                        response: nobd
-                    });
                 }
+
+                obdObject.tipo = x.tipo;
+                obdObject.valor = x.valor;
+                new Obd(obdObject).save(function(err,nobd){
+                    if (err) {
+                        if (err.code == 11000) res.status(400).json('Ubicacion ya guardada');
+                        return console.error(err);
+                    } else {
+                        console.log('New obd saved', nobd)
+                    }
+                })
             })
+            res.json({
+                success: true,
+                response: {
+                    PID:obdObject.PID
+                }
+            });
 
         });
 
