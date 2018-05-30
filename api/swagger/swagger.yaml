@@ -81,6 +81,29 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
+  /vehicle/{usuario}:
+    x-swagger-router-controller: vehiculo
+    get:
+      security:
+        - basicAuth: []
+        - tokenAuth: []
+      description: Gets the user description for a given username
+      operationId: getVehiculo
+      parameters:
+        - name: usuario
+          in: path
+          description: The unique username of the user to get the data
+          required: true
+          type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/OkResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
             
   /OBD/{vehiculo}:
     x-swagger-router-controller: obd
