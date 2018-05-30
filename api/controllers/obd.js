@@ -3,12 +3,13 @@
 const util = require('util');
 const Vehiculo = require('../models/vehiculo');
 const config = require('../../config'); // get our config file
-const Obd = require('../models/obd')
+const Obd = require('../models/obd');
+const Ubicacion = require('../models/ubicacion.js');
 
 module.exports = {
     addOBD: function(req, res){
         const obdObject = req.swagger.params.obd.value;
-        const ubicacion = JSON.parse('{"smidivID":"ABC123","lat":0,"lng":0}');
+        const ubicacion = JSON.parse('{"ubicacion":{"smidivID":"ABC123","lat":0,"lng":0}}');
         if (!obdObject) res.status(400).json('Error');
         const vehiculo = Vehiculo.findOne({
             'smidivID': obdObject.smidivID
@@ -21,13 +22,13 @@ module.exports = {
                 return;
             }
             obdObject.vehiculo=vehiculo._id;
+            obdObject.idAutomovil=vehiculo._id;
             ubicacion.idAutomovil=vehiculo._id;
             obdObject.PID.map(function(x){
                 if(x.lat){    
                     
-                    ubicacion.lat = x.lat;
-                    ubicacion.lng= x.lng;  
-                      
+                    ubicacion.ubicacion.lat = x.lat;
+                    ubicacion.ubicacion.lng= x.lng;  
                     new Ubicacion(ubicacion).save(function (err, nuevaUbicacion) {
                         if (err) {
                             if (err.code == 11000) res.status(400).json('Ubicacion ya guardada')
@@ -38,6 +39,7 @@ module.exports = {
                     })
 
                 }
+
 
                 obdObject.tipo = x.tipo;
                 obdObject.valor = x.valor;
