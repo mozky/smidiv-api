@@ -139,7 +139,7 @@ paths:
           in: body
           required: true
           schema:
-            $ref: "#/definitions/OBD"
+            $ref: "#/definitions/OBD1"
       responses:
         "200":
           description: Success
@@ -942,6 +942,17 @@ definitions:
         type: string
       valor:
         type: string
+    required:
+      - smidivID
+  OBD1:
+    type: object
+    properties:
+      smidivID:
+        type: string
+      PID:
+        type: array
+        items:
+          type: object
     required:
       - smidivID
   GetUserResponse:
