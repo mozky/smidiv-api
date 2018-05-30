@@ -396,6 +396,28 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
+    patch:
+      security:
+        - basicAuth: []
+        - tokenAuth: []
+      description: actualiza un vehiculo
+      operationId: updateVehiculo
+      parameters:
+        - name: vehiculo
+          description: Vehiculo a actualizar
+          in: body
+          required: true
+          schema:
+            $ref: "#/definitions/Vehiculo"
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/OkResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
   /alarma:
     x-swagger-router-controller: alarma
     get:
@@ -702,6 +724,8 @@ definitions:
   Vehiculo:
     type: object
     properties:
+      idVehiculo:
+        type: string
       username:
         type: string
         description: vehicle's owner

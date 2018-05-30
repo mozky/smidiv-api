@@ -131,5 +131,74 @@ module.exports = {
                 )
             })
         })
+    },
+    updateVehiculo: function(req, res) {
+        const vehiculo = req.swagger.params.vehiculo.value
+
+        if (!vehiculo) res.status(400).json('Error')
+
+        const updates = {
+            smidivID: vehiculo.smidivID,
+            placas: vehiculo.placas,
+            modelo: vehiculo.modelo,
+            dateUpdated: new Date()
+        }
+
+        Marca.findOne({
+            'nombre': vehiculo.marca,
+        }).select('_id').exec(function (err, marca) {
+            if(err){
+                console.log("Error fetching marca, #updateVehiculo", err)
+                res.status(400).json('Error obteniendo la marca')
+                return
+            }
+
+            if (!marca) {
+                new Marca({
+                    nombre: vehiculoObject.marca
+                }).save((err, newMarca) => {
+                    if (err) {
+                        res.status(400).json('Error creando marca, #updateVehiculo')
+                        return console.error(err)
+                    }
+
+                    updates.marca = newMarca._id
+
+                    Vehiculo.findOneAndUpdate({
+                        _id: vehiculo.idVehiculo,
+                    }, {
+                        $set: updates
+                    }, {
+                        new: true
+                    }, function (err, vehiculoActualizado) {
+                        if (err || !vehiculoActualizado) {
+                            res.status(500).json('Error actualizando vehiculo')
+                            return console.error(err)
+                        } else {
+                            console.log(vehiculoActualizado)
+                            res.json(vehiculoActualizado._id + ' actualizado')
+                        }
+                    })
+                })
+            } else {
+                updates.marca = marca._id
+
+                Vehiculo.findOneAndUpdate({
+                    _id: vehiculo.idVehiculo,
+                }, {
+                    $set: updates
+                }, {
+                    new: true
+                }, function (err, vehiculoActualizado) {
+                    if (err || !vehiculoActualizado) {
+                        res.status(500).json('Error actualizando vehiculo')
+                        return console.error(err)
+                    } else {
+                        console.log(vehiculoActualizado)
+                        res.json(vehiculoActualizado._id + ' actualizado')
+                    }
+                })
+            }
+        })
     }
 }

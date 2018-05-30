@@ -23,7 +23,6 @@ module.exports = {
         Vehiculo.findOne({
             'smidivID': ubicacionObject.smidivID
         })
-        .select('_id')
         .populate({
             path: 'usuario',
             select: '_id username'
@@ -43,7 +42,7 @@ module.exports = {
                     if (err.code == 11000) res.status(400).json('Ubicacion ya guardada')
                     return console.error(err)
                 } else {
-                    console.log('New ubicacion saved', nuevaUbicacion)
+                    console.log('Nueva ubicacion guardada', nuevaUbicacion)
 
                     res.json({
                         success: true,
@@ -52,47 +51,49 @@ module.exports = {
                 }
             })
 
-            //TODO: No deberiamos buscar en todas las alarmas?
-            Alarma.findOne({
-                "usuario": vehiculo.usuario._id
-            }).exec(function(err,alarm) {
-
-                console.log("alarma" + alarm.rangoDistancia.rango)
+            // Buscamos las alarmas activas para dicho usuario/vehiculo
+            Alarma.find({
+                "usuario": vehiculo.usuario._id,
+                "vehiculo": vehiculo._id,
+                "estado": true
+            }).exec(function(err,alarms) {
+                console.log(alarms)
+                // console.log("alarma" + alarm.rangoDistancia.rango)
                 //TODO: No deberiamos buscar todas las ubicaciones favs?
-                UbicacionFav.findOne({
-                    "idusuario": vehiculo.usuario._id
-                })
-                .exec(function(err, fav){
-                    const P1 = turf.point([fav.ubicacion.lat, fav.ubicacion.lng])
-                    const P2 = turf.point([ubicacionObject.ubicacion.lat, ubicacionObject.ubicacion.lng])
-                    const distanciaP1P2 = turf.distance(P1, P2, 'kilometers')
+                // UbicacionFav.findOne({
+                //     "idusuario": vehiculo.usuario._id
+                // })
+                // .exec(function(err, fav){
+                //     const P1 = turf.point([fav.ubicacion.lat, fav.ubicacion.lng])
+                //     const P2 = turf.point([ubicacionObject.ubicacion.lat, ubicacionObject.ubicacion.lng])
+                //     const distanciaP1P2 = turf.distance(P1, P2, 'kilometers')
                     
-                    if (distance > alarm.rangoDistancia.rango) {
+                //     if (distance > alarm.rangoDistancia.rango) {
 
-                        console.log('Enviando notificacion de alarma activada por distancia')
-                        const message = {
-                            to: '/topics/' + vehiculo.usuario.username,
-                            notification: {
-                                title: 'Notificacion SMIDIV!', 
-                                body: 'Tu Vehiculo ha salido de el rango definido' 
-                            },
-                            // También podemos enviar datos
-                            // data: {
-                            //     my_key: 'my value',
-                            //     my_another_key: 'my another value'
-                            // }
-                        }
+                //         console.log('Enviando notificacion de alarma activada por distancia')
+                //         const message = {
+                //             to: '/topics/' + vehiculo.usuario.username,
+                //             notification: {
+                //                 title: 'Notificacion SMIDIV!', 
+                //                 body: 'Tu Vehiculo ha salido de el rango definido' 
+                //             },
+                //             // También podemos enviar datos
+                //             // data: {
+                //             //     my_key: 'my value',
+                //             //     my_another_key: 'my another value'
+                //             // }
+                //         }
 
-                        // Enviando notificacion
-                        fcm.send(message, function(err, response){
-                            if (err) {
-                                console.log("Something has gone wrong!")
-                            } else {
-                                console.log("Successfully sent with response: ", response)
-                            }
-                        })
-                    }
-                })
+                //         // Enviando notificacion
+                //         fcm.send(message, function(err, response){
+                //             if (err) {
+                //                 console.log("Something has gone wrong!")
+                //             } else {
+                //                 console.log("Successfully sent with response: ", response)
+                //             }
+                //         })
+                //     }
+                // })
             })
         })
     },
