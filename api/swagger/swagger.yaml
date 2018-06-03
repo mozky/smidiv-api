@@ -788,7 +788,7 @@ definitions:
         type: string
         description: Alarma's ubicacion
       estado:
-        type: string
+        type: boolean     
         description: Estado de la alarma
       rangoDistancia:
         type: object

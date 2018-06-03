@@ -10,7 +10,7 @@ module.exports = {
     addAlarma: function(req, res) {
         const alertaObject = req.swagger.params.alarma.value
         if (!alertaObject) res.status(400).json('Error')
-
+        console.log(alertaObject);
         User.findOne({
             'username': alertaObject.username,
             'deleted': false
@@ -42,7 +42,7 @@ module.exports = {
                         res.status(400).json('Error adding alarma')
                         return
                     }
-    
+                    console.log("ubicacion"+ubi);
                     alertaObject.ubicacionfav = ubi._id
                     alertaObject.rangoHorario = undefined
                     alertaObject.rangoDistancia = alertaObject.rangoDistancia ? alertaObject.rangoDistancia : 3
@@ -61,6 +61,7 @@ module.exports = {
                     })
                 })
             } else {
+                alertaObject.ubicacionfav =ubi._id;
                 new Alarma(alertaObject).save(function (err, nuevaAlarma) {
                     if (err) {
                         if (err.code == 11000) res.status(400).json('Alarma ya guardada')

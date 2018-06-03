@@ -7,7 +7,7 @@ const config = require('../../config')
 module.exports = {
     addVehiculo: function (req, res) {
         const vehiculoObject = req.swagger.params.vehiculo.value
-
+        console.log(vehiculoObject);
         if (!vehiculoObject) res.status(400).json('Error')
 
         // we find the userId using the username from the request
@@ -22,7 +22,7 @@ module.exports = {
                     res.status(400).json('Error fetching user')
                     return;
                 }
-
+                /*
                 if (user.vehiculo) {
                     res.status(200).json({
                         success: true,
@@ -30,8 +30,8 @@ module.exports = {
                             vehiculoId: user.vehiculo
                         }
                     })
-                    return
-                }
+                   
+                }*/
 
                 vehiculoObject.usuario = user._id
 
@@ -41,7 +41,7 @@ module.exports = {
                     if(err){
                         console.log("Error fetching marca , #addMarca", err)
                         res.status(400).json('Error obteniendo la marca')
-                        return
+                        return;
                     }
 
                     if (!marca) {
@@ -74,6 +74,26 @@ module.exports = {
                                 }
                             })
                         })
+                    }else{
+                        vehiculoObject.marca = marca._id;
+
+                            new Vehiculo(vehiculoObject).save(function (err, nuevoVehiculo) {
+                                if (err) {
+                                    if (err.code == 11000) res.status(400).json('Vehiculo ya guardado')
+                                    return console.error(err)
+                                } else {
+                                    console.log('New vehicle saved', nuevoVehiculo)
+            
+                                    user.vehiculo = nuevoVehiculo._id
+
+                                    user.save((err, userWithVehicle) => {
+                                        res.json({
+                                            success: true,
+                                            response: nuevoVehiculo
+                                        })
+                                    })
+                                }
+                            })
                     }
                 }
             )   
@@ -118,10 +138,16 @@ module.exports = {
                     "usuario":usuario
                 }).exec(function(err,auto){
                     if(err || !auto){
-                        console.log("error obteniendo el vehiculo");
-                        res.status(400).json("error en vehiculo");
+                        console.log({response:{msg: "error obteniendo el vehiculo"}});
+                        res.json({
+                            success: false, 
+                            response:{
+                                msg: "error obteniendo el vehiculo"
+                            }
+                        });
                     }
-                    console.log("sent");
+                    else{
+                        console.log("sent");
                     res.json({
                         success: true,
                         response:{
@@ -129,6 +155,8 @@ module.exports = {
                         }
                     }
                 )
+                    }
+                    
             })
         })
     },
