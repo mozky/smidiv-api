@@ -57,7 +57,7 @@ const enviarNotificacion = (username) => {
 // TODO: Ahorita si esta una ubicacion favorita se considera como safe zone, falta cambiar esto por la alarma de ubicacion,
 // una ubicacionFav no necesariamente es una safe zone, tiene que estar activada como alarma.
 const CheckAlarmsAndSend = (idVehiculo, idUsuario, ubicacion) => {
-    console.log('Buscando alarmas...', idVehiculo, idUsuario, ubicacion)
+    console.log('Buscando alarmas...')
     // Buscamos las alarmas activas para dicho usuario/vehiculo
     Alarma.find({
         "usuario": idUsuario,
