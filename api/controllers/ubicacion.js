@@ -1,7 +1,5 @@
 'use strict'
 
-const admin = require('firebase-admin')
-
 const User = require('../models/user.js')
 const Vehiculo = require('../models/vehiculo.js')
 const Ubicacion = require('../models/ubicacion.js')

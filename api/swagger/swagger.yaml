@@ -149,6 +149,29 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
+  /alerta/{usuario}:
+    x-swagger-router-controller: alerta
+    get:
+      security:
+        - basicAuth: []
+        - tokenAuth: []
+      description: Gets the alerts description for a given username
+      operationId: getAlertas
+      parameters:
+        - name: usuario
+          in: path
+          description: The unique username of the user to get the data
+          required: true
+          type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/OkResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
   /ubicacionFav/{usuario}:
     x-swagger-router-controller: ubicacionFav
     get:

@@ -5,6 +5,7 @@ const turf = require ('turf')
 const config = require('../../config') // get our config file
 const Alarma = require('../models/alarma')
 const UbicacionFav = require('../models/ubicacionesFavoritas')
+const Alerta = require('../controllers/alerta')
 
 const fcm = new FCM(config.firebase.key)
 
@@ -95,8 +96,8 @@ const CheckAlarmsAndSend = (idVehiculo, idUsuario, ubicacion) => {
                             const estaEnZonaSegura = verificarRangoUbicacionesFav(ubicacion.ubicacion, ubicacionesFav)
                             console.log('Está en zona segura', estaEnZonaSegura)
                             if (!estaEnZonaSegura) {
-                                console.log('asdfklkjsdflj', alarma)
                                 enviarNotificacion(alarma.usuario.username)
+                                Alerta.agregarAlerta(idVehiculo, idUsuario, alarma._id, ubicacion._id, '', '')
                                 notificationSent = true
                             }
                         }          
