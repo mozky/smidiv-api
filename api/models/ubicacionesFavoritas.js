@@ -5,21 +5,21 @@ const ubicacionFavoritas = db.Schema({
     idusuario: {
         type: db.Schema.Types.ObjectId,
         required: true,
-        ref:'User'
+        ref: 'User'
     },
     nombre: {
         type: String,
         required: true,
     },
     ubicacion: {
-        lat:{type: Number},
-        lng:{type: Number}
+        lat: {type: Number},
+        lng: {type: Number}
     },
     fechaCreacion: {
-        type:Date, default: Date.now
+        type: Date, default: Date.now
     },
     fechaActualizacion: {
-        type:Date, default: Date.now
+        type: Date, default: Date.now
     },
     deleted: {
         type: Boolean, default: false

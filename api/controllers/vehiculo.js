@@ -183,7 +183,7 @@ module.exports = {
 
             if (!marca) {
                 new Marca({
-                    nombre: vehiculoObject.marca
+                    nombre: vehiculo.marca
                 }).save((err, newMarca) => {
                     if (err) {
                         res.status(400).json('Error creando marca, #updateVehiculo')
